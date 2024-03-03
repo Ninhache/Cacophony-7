@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello {{user.username}} !{% endblock %}
+
+{% block body %}
+<style>
+    table {
+        border-collapse: collapse;
+        border: 2px solid rgb(140 140 140);
+        font-family: sans-serif;
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+    }
+
+    th,
+    td {
+        border: 1px solid rgb(160 160 160);
+        padding: 8px 10px;
+    }
+      
+</style>
+
+<div class="example-wrapper">
+    {% if user %}
+        <p>Welcome, {{ user.username }}</p>
+
+        <form action="{{ path('app_logout') }}" method="post">
+            <button type="submit">Logout</button>
+        </form>
+    {% endif %}
+        
+    <h1>All Posts</h1>
+
+    <a href="{{ path('post_new') }}" class="btn btn-primary">
+        Create a New Post
+    </a>
+
+    {% if posts|length > 0 %}
+    <table>
+        <thead>
+            <th scope="col">Title</th>
+            <th scope="col">Author</th>
+            <th scope="col">Date</th>
+        </thead>
+        {% for post in posts %}
+            <tr>
+                <td><a href="{{ path('post_show', {'id': post.id}  )}}">{{post.title}}</a></th>
+                <td>{{post.author.username}}</td>
+                <td>{{post.createdAt|date('Y-m-d H:i:s')}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <p>No post yet</p>
+    {% endif %}
+
+</div>
+{% endblock %}

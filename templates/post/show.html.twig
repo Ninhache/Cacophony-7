@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ post.title }} {% endblock %}
+
+{% block body %}
+
+    <a href="{{ path("app_main") }}">Back to main</a>
+
+    <h1>{{ post.title }}</h1>
+
+    <p> {{ post.content }} </p>
+
+    ------
+
+    {{ form_start(form, {'action': path('comment_new', {'postId': post.id})}) }}
+        {{ form_widget(form) }}
+        <button type="submit" class="btn btn-primary">Submit Comment</button>
+    {{ form_end(form) }}
+
+
+    <p>Nb of comments {{post.comments|length}}</p>
+
+    <div class="comments">
+        {% for comment in post.comments %}
+            {% include 'components/Comment.html.twig' with {'comment': comment} %}
+        {% endfor %}
+    </div>
+
+{% endblock %}

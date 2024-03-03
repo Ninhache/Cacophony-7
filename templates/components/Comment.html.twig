@@ -1,0 +1,22 @@
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/components/comment.css') }}">
+{% endblock %}
+
+
+<div class="comment-container">
+    <div class="comment-header">
+        <div class="comment-author">{{comment.author.username}}</div>
+        <div class="comment-header-right">
+            {% if app.user and (comment.author.id == app.user.id or is_granted('ROLE_ADMIN')) %}
+                <form action="{{ path('comment_delete', {'commentId': comment.id}) }}" method="post">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ comment.id) }}">
+                    <button type="submit" class="btn-delete">Delete Comment</button>
+                </form>
+            {% endif %}
+            <div class="comment-date">{{comment.createdAt|date("m/d/Y")}}</div>
+        </div>
+    </div>
+    <div class="comment-body">
+        <p>{{comment.content}}</p>
+    </div>
+</div>
